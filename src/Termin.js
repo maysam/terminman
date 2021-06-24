@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import Logo from './2g_electronic_logo_svg_Vector.svg';
+import Logo from "./logo.svg";
 
 function Termin({ setEditMode }) {
   const [termins, setTermins] = useState();
@@ -33,7 +33,7 @@ function Termin({ setEditMode }) {
           return {
             id: termins[i].tableData.id,
             datetime: moment(termins[i].datetime),
-            time: moment(termins[i].datetime).format("YYYY-MM-DD HH:mm:ss"),
+            time: moment(termins[i].datetime).format("DD.MM.YYYY HH:mm:ss"),
             event: termins[i].event,
             active: termins[i].active,
           };
@@ -63,19 +63,22 @@ function Termin({ setEditMode }) {
     };
   });
 
-  if(!termins) {
-    return <div>Loading...</div>
+  if (!termins) {
+    return <div>Loading...</div>;
   }
 
   if (!currentTermin || !dif) {
     return (
-      <>
-        <div className=" box-border min-w-1/4 min-h-1/4 align-middle text-center border-4 border-green-900 pt-8 m-20 text-3xl">
-          No more entries in the list, will be redirected to termin page in 20 seconds
-          <button className="text-2xl border-4 rounded-lg border-green-600 ring-4 ring-pink-300 m-20 p-2" onClick={() => setEditMode(true)}> Go to the Edit Events</button>
-
-        </div>
-      </>
+      <div className=" box-border min-w-1/4 min-h-1/4 align-middle text-center border-4 border-green-900 pt-8 m-20 text-3xl">
+        No more entries in the list, will be redirected to termin page in 20
+        seconds
+        <button
+          className="text-2xl border-4 rounded-lg border-green-600 ring-4 ring-pink-300 m-20 p-2"
+          onClick={() => setEditMode(true)}
+        >
+          Go to the Edit Events
+        </button>
+      </div>
     );
   }
 
@@ -92,16 +95,15 @@ function Termin({ setEditMode }) {
     >
       <div className="flex flex-row justify-between bg-black  ">
         <div className="border border-gray-400 p-2 m-2 text-sm">
-          {moment().format("YYYY-MM-DD")}
+          {moment().format("DD.MM.YYYY")}
         </div>
         <div className="border border-gray-400 p-2 m-2 text-sm">
           {moment().format("HH:mm:ss")}
         </div>
       </div>
-      <div className="text-4xl text-center -mb-4 bg-black">
+      <div className="text-5xl text-center font-bold bg-black">
         {currentTermin.time}
-      </div>
-      <div className="text-5xl text-center font-bold -mt-4 mb-4  bg-black">
+        {' '}
         {currentTermin.event}
       </div>
       <div className="flex justify-center">
