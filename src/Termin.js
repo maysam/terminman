@@ -33,7 +33,7 @@ function Termin({ setEditMode }) {
           return {
             id: termins[i].tableData.id,
             datetime: moment(termins[i].datetime),
-            time: moment(termins[i].datetime).format("DD.MM.YYYY HH:mm:ss"),
+            time: moment(termins[i].datetime).format("DD.MM.YYYY - HH:mm"),
             event: termins[i].event,
             active: termins[i].active,
           };
@@ -87,37 +87,48 @@ function Termin({ setEditMode }) {
   if (dif < 600) pageMode = "bg-yellow-400";
   if (dif < 300) pageMode = "bg-red-600";
   if (dif < 120) pageMode = dif % 2 === 1 ? "bg-yellow-400" : "bg-red-600";
-  const leftTime = new Date(dif * 1000).toISOString().substr(11, 8);
+
+  const seconds = dif % 60
+  const secondString = `${seconds}`.padStart(2, '0')
+
+  const minutes = ((dif - seconds) / 60) % 60
+  const minuteString = `${minutes}`.padStart(2, '0')
+
+  const hours = (dif - seconds - minutes * 60) / 3600
+  const hourString = `${hours < 99 ? hours : 99}`.padStart(2, '0')
+
+  // const leftTime = new Date(dif * 1000).toISOString().substr(11, 8);
+  const timeLeft = `${hourString}:${minuteString}:${secondString}`
 
   return (
     <div
       className={`h-screen flex flex-col justify-between text-white w-full max-h-full ${pageMode}`}
     >
       <div className="flex flex-row justify-between bg-black  ">
-        <div className="border border-gray-400 p-2 m-2 text-sm">
+        <div className="border border-gray-400 p-2 m-2 text-md">
           {moment().format("DD.MM.YYYY")}
         </div>
-        <div className="border border-gray-400 p-2 m-2 text-sm">
+        <div className="border border-gray-400 p-2 m-2 text-md">
           {moment().format("HH:mm:ss")}
         </div>
       </div>
       <div className="text-5xl text-center font-bold bg-black">
         {currentTermin.time}
-        {' '}
+        {' - '}
         {currentTermin.event}
-      </div>
-      <div className="flex justify-center">
-        <img src={Logo} alt="Logo" className="w-1/2 bg-white" />
       </div>
       <div
         className="text-9xl border-2 font-bold text-center ml-2 mr-2  bg-black"
         style={{ fontSize: "50px" }}
       >
-        {leftTime}
+        {timeLeft}
+      </div>
+      <div className="flex justify-center">
+        <img src={Logo} alt="Logo" className="w-1/2 bg-white" />
       </div>
       <div className="flex  bg-black">
         <div
-          className="border border-gray-400 bg-yellow-200 text-lg text-black m-2 p-2 cursor-pointer"
+          className="border border-gray-400 bg-blue-900 text-lg text-blue-300 m-2 p-2 cursor-pointer"
           onClick={() => setEditMode(true)}
         >
           Edit Events
